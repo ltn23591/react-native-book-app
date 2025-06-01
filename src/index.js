@@ -9,7 +9,8 @@ const app = express();
 const port = process.env.PORT || 3000;
 job.start(); // Bắt đầu cron job
 app.use(cors()); // Cấu hình CORS để cho phép tất cả các nguồn gốc truy cập
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 app.get('/', (req, res) => {
     res.send('Hello World!');

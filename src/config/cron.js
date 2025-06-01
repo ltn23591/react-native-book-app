@@ -16,3 +16,9 @@ const job = new CronJob('*/14 * * * *', function () {
 });
 
 module.exports = job;
+
+/**
+ * Giữ ứng dụng hoạt động liên tục (wake-up ping):
+Nhiều hosting (như Render free) sẽ tạm dừng app nếu không có request sau một thời gian.
+Cron job này sẽ "đánh thức" app bằng cách tự gọi vào chính URL app định kỳ.
+Theo dõi uptime hoặc kiểm tra server có sập không. */
