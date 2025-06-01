@@ -34,7 +34,7 @@ const addBook = async (req, res) => {
 const getAllBook = async (req, res) => {
     try {
         const page = req.query.page || 1; // Lấy số trang từ query, mặc định là trang 1
-        const limit = req.query.limit || 5; // Lấy số lượng sách mỗi trang từ query, mặc định là 5
+        const limit = req.query.limit || 2; // Lấy số lượng sách mỗi trang từ query, mặc định là 2
         const skip = (page - 1) * limit; // Tính số lượng sách cần bỏ qua
         const books = await Book.find()
             .sort({ createdAt: -1 })
