@@ -1,6 +1,7 @@
 const userModel = require('../models/user');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const { create } = require('../models/book');
 const generateToken = (userId) => {
     return jwt.sign({ userId }, process.env.JWT_SECRET);
 };
@@ -70,7 +71,9 @@ const login = async (req, res) => {
         const { email, password } = req.body;
 
         if (!email || !password) {
-            return res.status(400).json({ message: 'Vui lòng nhập email và mật khẩu' });
+            return res
+                .status(400)
+                .json({ message: 'Vui lòng nhập email và mật khẩu' });
         }
 
         // Kiểm tra người dùng có tồn tại không
@@ -96,6 +99,7 @@ const login = async (req, res) => {
                 email: user.email,
                 username: user.username,
                 profileImage: user.profileImage,
+                createdAt: user.createdAt,
             },
             token,
         });
