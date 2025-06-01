@@ -68,7 +68,7 @@ const deleteBook = async (req, res) => {
                 .status(403)
                 .json({ message: 'Bạn không có quyền xóa sách này' });
         }
-        await Book.deleteOne();
+        await Book.deleteOne({ _id: book._id });
 
         // Xóa hinh ảnh khỏi Cloudinary
         if (book.image && book.image.includes('cloudinary')) {
