@@ -11,39 +11,24 @@ const addBook = async (req, res) => {
         }
 
         // Tải hình ảnh lên Cloudinary
-        try {
-            const upLoadResponse = await cloudinary.uploader.upload(image, {
-                resource_type: 'auto',
-                chunk_size: 6000000, // 6MB chunks
-            });
-            const imageUrl = upLoadResponse.secure_url;
-
-            // Lưu vào cơ sở dữ liệu
-            const newBook = new Book({
-                title,
-                caption,
-                rating,
-                image: imageUrl, // Lưu URL hình ảnh từ Cloudinary
-                user: req.user._id, // Lấy ID người dùng từ token đã xác thực
-            });
-            await newBook.save();
-            res.status(201).json({
-                message: 'Thêm sách thành công',
-                newBook,
-            });
-        } catch (uploadError) {
-            console.error('Cloudinary upload error:', uploadError);
-            return res.status(500).json({
-                message: 'Lỗi khi tải lên hình ảnh',
-                error: uploadError.message,
-            });
-        }
-    } catch (error) {
-        console.error('Server error:', error);
-        res.status(500).json({
-            message: 'Lỗi máy chủ',
-            error: error.message,
+        const upLoadResponse = await cloudinary.uploader.upload(image);
+        const imageUrl = upLoadResponse.secure_url;
+        // Lưu vào cơ sở dữ liệu
+        const newBook = new Book({
+            title,
+            caption,
+            rating,
+            image: imageUrl, // Lưu URL hình ảnh từ Cloudinary
+            user: req.user._id, // Lấy ID người dùng từ token đã xác thực
         });
+        await newBook.save();
+        res.status(201).json({
+            message: 'Thêm sách thành công',
+            newBook,
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'Lỗi máy chủ' });
     }
 };
 const getAllBook = async (req, res) => {

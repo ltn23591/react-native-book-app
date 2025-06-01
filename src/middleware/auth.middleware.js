@@ -4,7 +4,7 @@ const userModel = require('../models/user');
 const protectRoute = async (req, res, next) => {
     try {
         // Lấy token từ header Authorization
-        const token = req.headers('Authorization').replace('Bearer ', '');
+        const token = req.headers.authorization?.replace('Bearer ', '');
         if (!token) {
             return res
                 .status(401)
