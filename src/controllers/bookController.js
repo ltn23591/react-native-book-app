@@ -87,8 +87,20 @@ const deleteBook = async (req, res) => {
         res.status(500).json({ message: 'Lỗi máy chủ' });
     }
 };
+const getBooksByUser = async (req, res) => {
+    try {
+        const books = await Book.find({ user: req.user._id }).sort({
+            createdAt: -1,
+        });
+        res.json(books);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'Lỗi máy chủ' });
+    }
+};
 module.exports = {
     addBook,
     getAllBook,
     deleteBook,
+    getBooksByUser,
 };
