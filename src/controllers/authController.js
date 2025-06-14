@@ -59,7 +59,14 @@ const register = async (req, res) => {
         });
 
         await newUser.save(); // Lưu người dùng vào cơ sở dữ liệu
+        setTimeout(async () => {
+            const user = await userModel.findOne({ email });
 
+            if (user && !user.isVerified && user.otpExpires < Date.now()) {
+                await userModel.deleteOne({ email });
+                console.log(`Đã xoá tài khoản chưa xác thực: ${email}`);
+            }
+        }, 10 * 60 * 1000);
         await sendMail({
             to: email,
             subject: 'Xác thực tài khoản',
