@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 const userModel = require('../models/user');
-
 const protectRoute = async (req, res, next) => {
     try {
         // Lấy token từ header Authorization
